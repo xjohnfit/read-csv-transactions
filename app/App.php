@@ -19,7 +19,7 @@ function getTransactionFiles(string $dirPath): array
 
 function getTransactions(string $fileName, ?callable $transactionHandler = null): array
 {
-    if(! file_exists($fileName)){
+    if (! file_exists($fileName)) {
         trigger_error('File "' . $fileName . '" does not exist.', E_USER_ERROR);
     }
 
@@ -33,8 +33,10 @@ function getTransactions(string $fileName, ?callable $transactionHandler = null)
         if ($transactionHandler !== null) {
             $transaction = $transactionHandler($transaction);
         }
-        $transactions[] = extractTransaction($transaction);
+
+        $transactions[] = $transaction;
     }
+
     return $transactions;
 }
 
@@ -45,10 +47,10 @@ function extractTransaction(array $transactionRow): array
     $amount = (float) str_replace(['$', ','], '', $amount);
 
     return [
-        'date' => $date,
+        'date'        => $date,
         'checkNumber' => $checkNumber,
         'description' => $description,
-        'amount' => $amount,
+        'amount'      => $amount,
     ];
 }
 
